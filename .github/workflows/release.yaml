@@ -61,23 +61,6 @@ jobs:
             exit 1
           fi
 
-      # Set up Node
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18.x"
-          cache: "npm"
-
-      # `npm ci` is recommended:
-      # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-      - name: Install Dependencies
-        run: npm ci
-
-      # Run our `build` script
-      - name: Build All
-        run: |
-          npm run build
-
       # Create a zip file with all files required by the module to add to the release
       - run: zip ${{ env.ZIP_NAME }} -r images languages resources scripts styles templates LICENSE readme.md changelog.md module.json
 
