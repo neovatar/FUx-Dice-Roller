@@ -1,4 +1,8 @@
 # FUx Dice Roller Change Log
+
+## Version 0.4.2 (2024-09-11)
+- Add Foundry version 12 to compatible versions
+
 ## Version 0.4.2 (2023-10-18)
 - Updated for Foundry version 10 and 11
 

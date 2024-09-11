@@ -7,6 +7,10 @@
     {
       "name": "anders-forslund",
       "url": "https://github.com/Anderware/Foundry-Vtt-Sandbox-Macros/"
+    },
+    {
+      "name": "neovatar",
+      "url": "https://github.com/neovatar/FUx-Dice-Roller"
     }
   ],
   "languages": [
@@ -16,11 +20,10 @@
       "path": "languages/en.json"
     }
   ],
-  "version": "0.4.2",
+  "version": "0.4.3",
   "compatibility": {
     "minimum": "10",
-    "verified": "11",
-    "maximum": "11"
+    "verified": "12"
   }, 
   "styles": [
     "styles/fux-dice-roller.css",
@@ -34,15 +37,15 @@
     "scripts/fux-dice-roller-combat-helper-form.js",
     "scripts/fux-dice-roller-constants.js"
   ],
-  "manifest": "https://raw.githubusercontent.com/Anderware/Foundry-Vtt-Sandbox-Macros/main/Modules/FUx-Dice-Roller/releases/module.json",
-  "url": "https://github.com/Anderware/Foundry-Vtt-Sandbox-Macros/tree/main/Modules/FUx-Dice-Roller",
-  "download": "https://github.com/Anderware/Foundry-Vtt-Sandbox-Macros/raw/main/Modules/FUx-Dice-Roller/releases/0.4.2/fux-dice-roller-0.4.2.zip",
-  "readme": "https://github.com/Anderware/Foundry-Vtt-Sandbox-Macros/blob/main/Modules/FUx-Dice-Roller/README.MD",
-  "changelog": "https://github.com/Anderware/Foundry-Vtt-Sandbox-Macros/blob/main/Modules/FUx-Dice-Roller/releases/0.4.2/changelog.md",
+  "manifest": "https://raw.githubusercontent.com/neovatar/FUx-Dice-Roller/main/module.json",
+  "url": "https://github.com/neovatar/FUx-Dice-Roller/tree/main",
+  "download": "https://github.com/neovatar/FUx-Dice-Roller/releases/download/release-0.4.3/fux-dice-roller-0.4.3.zip",
+  "readme": "https://github.com/neovatar/FUx-Dice-Roller/blob/main/readme.md",
+  "changelog": "https://github.com/neovatar/FUx-Dice-Roller/blob/main/changelog.md",
   "media": [
-      {
-          "type": "icon",
-          "url": "https://avatars.githubusercontent.com/u/81265884"
-      }
+    {
+        "type": "icon",
+        "url": "https://raw.githubusercontent.com/neovatar/FUx-Dice-Roller/main/images/fux-dice-roller.svg"
+    }
   ]
 }
