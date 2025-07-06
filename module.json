@@ -20,7 +20,7 @@
       "path": "languages/en.json"
     }
   ],
-  "version": "0.4.3",
+  "version": "0.5.0",
   "compatibility": {
     "minimum": "10",
     "verified": "12"
@@ -37,9 +37,8 @@
     "scripts/fux-dice-roller-combat-helper-form.js",
     "scripts/fux-dice-roller-constants.js"
   ],
-  "manifest": "https://raw.githubusercontent.com/neovatar/FUx-Dice-Roller/main/module.json",
-  "url": "https://github.com/neovatar/FUx-Dice-Roller/tree/main",
-  "download": "https://github.com/neovatar/FUx-Dice-Roller/releases/download/release-0.4.3/fux-dice-roller-release-0.4.3.zip",
+  "manifest": "https://github.com/neovatar/FUx-Dice-Roller/releases/download/snapshot-0.5.0/module.json",
+  "download": "https://github.com/neovatar/FUx-Dice-Roller/releases/download/snapshot-0.5.0/fux-dice-roller-snapshot-0.5.0.zip",
   "readme": "https://github.com/neovatar/FUx-Dice-Roller/blob/main/readme.md",
   "changelog": "https://github.com/neovatar/FUx-Dice-Roller/blob/main/changelog.md",
   "media": [
