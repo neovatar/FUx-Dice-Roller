@@ -30,7 +30,7 @@ jobs:
         run: |
           TAG=${GITHUB_REF/refs\/tags\//}
           echo "TAG_NAME=$TAG" >> $GITHUB_ENV
-          echo "ZIP_NAME=fux-dice-roller-$TAG.zip" >> $GITHUB_ENV
+          echo "ZIP_NAME=fux-dice-roller.zip" >> $GITHUB_ENV
           echo "RELEASE_DOWNLOAD_URL=https://github.com/${{github.repository}}/releases/download/$TAG/fux-dice-roller.zip" >> $GITHUB_ENV
           echo "RELEASE_INSTALL_URL=https://github.com/${{github.repository}}/releases/download/$TAG/module.json" >> $GITHUB_ENV
 

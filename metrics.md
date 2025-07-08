@@ -1,11 +1,14 @@
 # Metrics
 
-## Downloads
+## GitHub Downloads (all assets, all releases)
+
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/neovatar/FUx-Dice-Roller/total?style=for-the-badge&color=%23ff6400)
+
 
 ### Latest
-![GitHub Release](https://img.shields.io/github/v/release/Anderware/FUx-Dice-Roller?style=for-the-badge&label=Latest%20release&color=%23ff6400)![GitHub Downloads (specific asset, latest release)](https://img.shields.io/github/downloads/Anderware/FUx-Dice-Roller/latest/fux-dice-roller.zip?style=for-the-badge)
+![GitHub Release](https://img.shields.io/github/v/release/Anderware/FUx-Dice-Roller?style=for-the-badge&label=Latest%20release&color=%23ff6400)![GitHub Downloads (specific asset, latest release)](https://img.shields.io/github/downloads/neovatar/FUx-Dice-Roller/latest/fux-dice-roller.zip?style=for-the-badge)
 
-### By release
+### Latest
 ![GitHub Downloads (specific asset, specific tag)](https://img.shields.io/github/downloads/Anderware/FUx-Dice-Roller/v0.4.2/fux-dice-roller.zip?style=for-the-badge&color=%23ff6400)  
 
 
