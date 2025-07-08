@@ -6,7 +6,7 @@ Built-in support for
 
 - Dice So Nice
 
-The dice roller is not dependent on any specific Foundry game system but can used in any game system.
+The dice roller is not dependent on any specific Foundry game system.
 
 ![fux_fu_v2](resources/fux_fu_v2.gif)
 ## Installation
