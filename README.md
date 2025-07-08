@@ -1,26 +1,19 @@
-![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://raw.githubusercontent.com/Anderware/FUx-Dice-Roller/main/module.json&style=for-the-badge)![Supported Game Systems](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fsystem%3FnameType%3Dfull%26showVersion%3D1%26style%3Dfor-the-badge%26url%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FAnderware%2FFUx-Dice-Roller%2Fmain%2Fmodule.json)![GitHub Release](https://img.shields.io/github/v/release/Anderware/FUx-Dice-Roller?style=for-the-badge&label=Latest%20release&color=%23ff6400)
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/ramses800) 
 # FUx Dice Roller
 
 Dice roller for FreeForm Universal(FU) RPG Classic & v2(beta), Action Tales! RPG(Dungeon Crawlers, Neon City Overdrive RPG, Hard City RPG, Star Scoundrels RPG, Tomorrow City), Earthdawn - Age Of Legend
 
 Built-in support for 
 
-- Game system Sandbox chat result style
 - Dice So Nice
 
 The dice roller is not dependent on any specific Foundry game system but can used in any game system.
-### Recommended Foundry Game systems
-- [Sandbox System Builder](https://foundryvtt.com/packages/sandbox)
-- [Simple World-Building](https://foundryvtt.com/packages/worldbuilding)
 
 ![fux_fu_v2](resources/fux_fu_v2.gif)
 ## Installation
-### Directly inside Foundry
-FUx Dice Roller can be installed from Foundry´s configuration meny under "Add-on Module", and choose "Install module", filter package for "FUx Dice Roller"
+
 ### Manifest URL
-https://raw.githubusercontent.com/Anderware/Foundry-Vtt-Sandbox-Macros/main/Modules/FUx-Dice-Roller/releases/module.json
+
+https://github.com/neovatar/FUx-Dice-Roller/releases/latest/download/module.json
 
 See here on help on how to use the manifest URL to install a module  
 [Foundry Wiki - How to install module](https://foundryvtt.wiki/en/basics/Modules) 

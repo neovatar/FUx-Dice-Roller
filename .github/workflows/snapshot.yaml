@@ -72,6 +72,7 @@ jobs:
           allowUpdates: true # Set this to false if you want to prevent updating existing releases
           name: ${{ env.TAG_NAME }}
           draft: false
+          makeLatest: false
           prerelease: true
           omitDraftDuringUpdate: false
           omitPrereleaseDuringUpdate: true

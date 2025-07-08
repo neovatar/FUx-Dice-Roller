@@ -1,6 +1,5 @@
 // -----------------------------------------------
 // Export const needs defined in 
-//   export const _module_id='sandbox-extensions';  // modules true name(id)
 //   export const _module_ignore_settings=[];       // array of strings containing settings that should not be displayed
 // -----------------------------------------------
 import { _module_id } from   './fux-dice-roller.js';

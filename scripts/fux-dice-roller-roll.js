@@ -1,7 +1,7 @@
 import { FUX_CONST } from   './fux-dice-roller-constants.js';
 const _module_id = 'fux-dice-roller';  // modules true name(id)
 async function RollD6s(faces){
-  let roll=await new Roll(faces + "d6").roll({async: true});
+  let roll = await new Roll(faces + "d6").roll();
   return roll;
 }
 function getGameSetting(settingName){
@@ -214,7 +214,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
       submsg = 'Result: ' + rollvalue;
       switch (rollvalue) {
         // in NCO BOTCH: If all the action dice have been canceled out, or the only remaining 
-        // action dice are 1’s, you have critically failed. Things have gone very wrong and 
+        // action dice are 1ï¿½s, you have critically failed. Things have gone very wrong and 
         // the consequences will be terrible.
         case 0:
         case 1:
@@ -333,7 +333,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
       submsg = 'Result: ' + rollvalue;
       switch (rollvalue) {
         // In FU2 Botch: if all the ( are cancelled, 
-        // the result counts as a roll of “1”.
+        // the result counts as a roll of ï¿½1ï¿½.
         case 0:
           oracle = 'BOTCH';
           hasfumble = true;
@@ -376,7 +376,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let selfmode=false;
     let rolltype = document.getElementsByClassName("roll-type-select");
     let rtypevalue = rolltype[0].value;
-    let rvalue = CONST.CHAT_MESSAGE_TYPES.OTHER;
+    let rvalue = CONST.CHAT_MESSAGE_STYLES.IC;
     switch (rtypevalue) {      //roll, gmroll,blindroll,selfroll
       case CONST.DICE_ROLL_MODES.PUBLIC:
         publicmode=true;
@@ -455,148 +455,111 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let msgimg;
     let msgname;
     if (game.user.character != null) {
-      msgimg = game.user.character.data.img;
-      msgname = game.user.character.data.name;
+      msgimg = game.user.character.img;
+      msgname = game.user.character.name;
     } else {
       msgimg = game.user.avatar;
       msgname = game.user.name;
     }
-    // determine running system    
-    let runningsystemname = game.system.id; // sandbox
-    if (runningsystemname == 'sandbox') {
-      // special handling for sandbox    
-      let rollData = {
-        token: {
-          img: msgimg,
-          name: msgname
-        },
-        actor: msgname,
-        flavor: flavortext,
-        formula: '',
-        mod: '',
-        result: oracle,
-        user: game.user.name,
-        conditional: submsg,
-        iscrit: hascrit,
-        isfumble: hasfumble,
-        blind: blindmode,
-        action: actionresult,
-        danger: dangerresult,
-        summary: submsg + ' => ' + oracle
-      };
-
-      renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-sandbox.hbs", rollData).then(html => {
-        let messageData = {
-          content: html,
-          type: rvalue,
-          blind: blindmode
+    
+    // ----------------
+    // any other system
+    // ----------------
+    let actionrolls=[];
+    let dangerrolls=[];
+    
+    if (systemvariant == FUX_CONST.SYSTEM_VARIANTS.EARTHDAWN_AGE_OF_LEGEND) {
+      // don use the sorted array
+      for (let i = 0; i < actiondiceresults.terms[0].results.length; i++) {
+        let dieresult={
+          classes:'die d6',
+          result: actiondiceresults.terms[0].results[i].result
         };
-        if (rtypevalue == CONST.DICE_ROLL_MODES.PRIVATE || rtypevalue == CONST.DICE_ROLL_MODES.BLIND) {
-          messageData.whisper = ChatMessage.getWhisperRecipients('GM');
-        } else if (rtypevalue == CONST.DICE_ROLL_MODES.SELF) {
-          // whisper to self  
-          messageData.whisper = ChatMessage.getWhisperRecipients(game.user.name);
-        }
-        let newmessage = ChatMessage.create(messageData);
-      });
-    } else {
-      // ----------------
-      // any other system
-      // ----------------
-      let actionrolls=[];
-      let dangerrolls=[];
-      
-      if (systemvariant == FUX_CONST.SYSTEM_VARIANTS.EARTHDAWN_AGE_OF_LEGEND) {
-        // don use the sorted array
-        for (let i = 0; i < actiondiceresults.terms[0].results.length; i++) {
-          let dieresult={
-            classes:'die d6',
-            result: actiondiceresults.terms[0].results[i].result
-          };
-          actionrolls.push(dieresult);
-        }
-        for (let i = 0; i < dangerdiceresults.terms[0].results.length; i++) {          
-          let dieresult={
-            classes:'die d6',
-            result: dangerdiceresults.terms[0].results[i].result
-          };
-          dangerrolls.push(dieresult);
-        }
-        
-      } else{      
-        for (let i = 0; i < actionssorted.length; i++) {
-          let dieresult={
-            classes:'die d6',
-            result: actionssorted[i]
-          };
-          actionrolls.push(dieresult);
-        }
-        for (let i = 0; i < dangersorted.length; i++) {
-          let dieresult={
-            classes:'die d6',
-            result: dangersorted[i]
-          };
-          dangerrolls.push(dieresult);
-        }  
+        actionrolls.push(dieresult);
+      }
+      for (let i = 0; i < dangerdiceresults.terms[0].results.length; i++) {          
+        let dieresult={
+          classes:'die d6',
+          result: dangerdiceresults.terms[0].results[i].result
+        };
+        dangerrolls.push(dieresult);
       }
       
-      let parts=[
-        {
-          faces:6,
-          flavor:'white',
-          formula:'Action Dice',
-          rolls:actionrolls,
-          total:actiondice
-        },
-        {
-          faces:6,
-          flavor:'black',
-          formula:'Danger Dice',
-          rolls:dangerrolls,
-          total:dangerdice
-        }
-      ];
-      
-      let rollData = {
-        token: {
-          img: msgimg,
-          name: msgname
-        },
-        actor: msgname,
-        flavor: flavortext,
-        formula: submsg,
-        total:oracle ,
-        parts:parts,
-        
-        mod: '',
-        result: oracle ,
-        user: game.user.name,
-        conditional: submsg,
-        iscrit: hascrit,
-        isfumble: hasfumble,
-        blind: blindmode,
-        action: actionresult,
-        danger: dangerresult,
-        summary: submsg + ' => ' + oracle
-      };
-
-      renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
-        let messageData = {
-          content: html,
-          type: rvalue,
-          blind: blindmode
+    } else{      
+      for (let i = 0; i < actionssorted.length; i++) {
+        let dieresult={
+          classes:'die d6',
+          result: actionssorted[i]
         };
-        
-        if (rtypevalue == CONST.DICE_ROLL_MODES.PRIVATE || rtypevalue == CONST.DICE_ROLL_MODES.BLIND) {
-          messageData.whisper = ChatMessage.getWhisperRecipients('GM');
-        } else if (rtypevalue == CONST.DICE_ROLL_MODES.SELF) {
-          // whisper to self  
-          messageData.whisper = ChatMessage.getWhisperRecipients(game.user.name);
-        }
-        let newmessage = ChatMessage.create(messageData);
-      });       
+        actionrolls.push(dieresult);
+      }
+      for (let i = 0; i < dangersorted.length; i++) {
+        let dieresult={
+          classes:'die d6',
+          result: dangersorted[i]
+        };
+        dangerrolls.push(dieresult);
+      }  
     }
+    
+    let parts=[
+      {
+        faces:6,
+        flavor:'white',
+        formula:'Action Dice',
+        rolls:actionrolls,
+        total:actiondice
+      },
+      {
+        faces:6,
+        flavor:'black',
+        formula:'Danger Dice',
+        rolls:dangerrolls,
+        total:dangerdice
+      }
+    ];
+    
+    let rollData = {
+      token: {
+        img: msgimg,
+        name: msgname
+      },
+      actor: msgname,
+      flavor: flavortext,
+      formula: submsg,
+      total:oracle ,
+      parts:parts,
+      
+      mod: '',
+      result: oracle ,
+      user: game.user.name,
+      conditional: submsg,
+      iscrit: hascrit,
+      isfumble: hasfumble,
+      blind: blindmode,
+      action: actionresult,
+      danger: dangerresult,
+      summary: submsg + ' => ' + oracle
+    };
 
+    renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
+      let messageData = {
+        content: html,
+        type: rvalue,
+        blind: blindmode,
+        speaker: ChatMessage.getSpeaker(),
+      };
+      
+      console.log('speaker:', msgname);
+
+      if (rtypevalue == CONST.DICE_ROLL_MODES.PRIVATE || rtypevalue == CONST.DICE_ROLL_MODES.BLIND) {
+        messageData.whisper = ChatMessage.getWhisperRecipients('GM');
+      } else if (rtypevalue == CONST.DICE_ROLL_MODES.SELF) {
+        // whisper to self  
+        messageData.whisper = ChatMessage.getWhisperRecipients(game.user.name);
+      }
+      let newmessage = ChatMessage.create(messageData);
+    });  
     return rollvalue + boons;
 
   }
