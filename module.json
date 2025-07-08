@@ -1,8 +1,7 @@
 {
-  "name": "fux-dice-roller",
+  "id": "fux-dice-roller",
   "title": "FUx Dice Roller",
   "description": "Dice roller for FreeForm Universal(FU) RPG Classic & v2(beta), Action Tales! RPG(Neon City Overdrive RPG, Hard City RPG, Star Scoundrels RPG), Earthdawn - Age Of Legend",
-  "author":"anders-forslund",
   "authors": [
     {
       "name": "anders-forslund",
@@ -20,7 +19,7 @@
       "path": "languages/en.json"
     }
   ],
-  "version": "0.4.3",
+  "version": "0.5.0",
   "compatibility": {
     "minimum": "10",
     "verified": "12"
@@ -37,9 +36,8 @@
     "scripts/fux-dice-roller-combat-helper-form.js",
     "scripts/fux-dice-roller-constants.js"
   ],
-  "manifest": "https://raw.githubusercontent.com/neovatar/FUx-Dice-Roller/main/module.json",
-  "url": "https://github.com/neovatar/FUx-Dice-Roller/tree/main",
-  "download": "https://github.com/neovatar/FUx-Dice-Roller/releases/download/release-0.4.3/fux-dice-roller-release-0.4.3.zip",
+  "manifest": "https://github.com/neovatar/FUx-Dice-Roller/releases/latest/download/module.json",
+  "download": "https://github.com/neovatar/FUx-Dice-Roller/releases/download/release-0.5.0/fux-dice-roller.zip",
   "readme": "https://github.com/neovatar/FUx-Dice-Roller/blob/main/readme.md",
   "changelog": "https://github.com/neovatar/FUx-Dice-Roller/blob/main/changelog.md",
   "media": [

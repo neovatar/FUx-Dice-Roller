@@ -24,7 +24,6 @@ class FUxDiceRoller {
     SYSTEM_VARIANT_EARTHDAWN_AGE_OF_LEGEND: 'SYSTEM_VARIANT_EARTHDAWN_AGE_OF_LEGEND',
     OPTION_CHATMSG_STYLE: 'OPTION_CHATMSG_STYLE',
     OPTION_CHATMSG_STYLE_CORE: 'OPTION_CHATMSG_STYLE_CORE',
-    OPTION_CHATMSG_STYLE_SANDBOX: 'OPTION_CHATMSG_STYLE_SANDBOX',
     OPTION_SHOW_SEND_TO_COMBAT_TRACKER: 'OPTION_SHOW_SEND_TO_COMBAT_TRACKER',
     OPTION_HARD_MODE: 'OPTION_HARD_MODE',
     OPTION_BOTCH_VALUE: 'OPTION_BOTCH_VALUE',
@@ -46,7 +45,6 @@ class FUxDiceRoller {
   }
   static CHATMSG_STYLE = {
     CORE: 0,
-    SANDBOX: 1
   }
 
   static initialize() {
@@ -92,7 +90,6 @@ class FUxDiceRoller {
      type: String, 
      choices: {
      0: `fux-dice-roller.settings.${this.SETTINGS.OPTION_CHATMSG_STYLE_CORE}`,
-     1: `fux-dice-roller.settings.${this.SETTINGS.OPTION_CHATMSG_STYLE_SANDBOX}`
      },        
      scope: 'world',
      config: false,
@@ -179,23 +176,15 @@ class FUxDiceRoller {
 
 
     // code for handling blind rolls
-    let runningsystemname = game.system.id; // sandbox
-    if (runningsystemname == 'sandbox') {
-      console.log(_module_id + ' || Current system ' + runningsystemname);
-      // Sandbox have a hook on renderchatmessages which amon alot of things
-      // hides blind rolls
-    } else {
-      console.log(_module_id + ' || Current system ' + runningsystemname);
-      // add hook for chat messages
-      Hooks.on("renderChatMessage", async (app, html, data) => {
-        let result = $(html).find(".fux-dice-roller-chat-result")[0];
-        if (result) {
-          if (!game.user.isGM && data.message.blind) {
-            result.style.display = "none";
-          }
+    // add hook for chat messages
+    Hooks.on("renderChatMessage", async (app, html, data) => {
+      let result = $(html).find(".fux-dice-roller-chat-result")[0];
+      if (result) {
+        if (!game.user.isGM && data.message.blind) {
+          result.style.display = "none";
         }
-      });
-    }
+      }
+    });
   }
 }
 

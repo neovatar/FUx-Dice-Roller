@@ -1,5 +1,10 @@
 # FUx Dice Roller Change Log
 
+## Version 0.5.0 (2025-07-08)
+- Removed: Special chat code for sandbox system
+- Fixed: v12 deprecations
+- Fixed: Actor / character name is now displayed correctly as chat sender
+
 ## Version 0.4.2 (2024-09-11)
 - Add Foundry version 12 to compatible versions
 

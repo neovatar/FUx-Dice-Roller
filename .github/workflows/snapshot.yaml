@@ -3,7 +3,7 @@ name: Release Creation
 on:
   push:
     tags:
-      - "release-*"
+      - "snapshot-*"
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
           echo "TAG_NAME=$TAG" >> $GITHUB_ENV
           echo "ZIP_NAME=fux-dice-roller.zip" >> $GITHUB_ENV
           echo "RELEASE_DOWNLOAD_URL=https://github.com/${{github.repository}}/releases/download/$TAG/fux-dice-roller.zip" >> $GITHUB_ENV
-          echo "RELEASE_INSTALL_URL=https://github.com/${{github.repository}}/releases/latest/download/module.json" >> $GITHUB_ENV
+          echo "RELEASE_INSTALL_URL=https://github.com/${{github.repository}}/releases/download/$TAG/module.json" >> $GITHUB_ENV
 
       # Run some tests to make sure our `system.json` is correct
       # Exit before setting up node if not
@@ -44,8 +44,8 @@ jobs:
           PACKAGE_DOWNLOAD: ${{ steps.manifest.outputs.download }}
         run: |
           # Validate that the tag being released matches the package version.
-          if [[ ! $TAG_NAME == release-$PACKAGE_VERSION ]]; then
-            echo "The module.json version does not match tag name."
+          if [[ ! $TAG_NAME == snapshot-$PACKAGE_VERSION ]]; then
+            echo "The system.json version does not match tag name."
             echo "module.json: $PACKAGE_VERSION"
             echo "tag name: $TAG_NAME"
             echo "Please fix this and push the tag again."
@@ -54,8 +54,8 @@ jobs:
 
           # Validate that the package download url matches the release asset that will be created.
           if [[ ! $RELEASE_DOWNLOAD == $PACKAGE_DOWNLOAD ]]; then
-            echo "The module.json download url does not match the created release asset url."
-            echo "module.json: $PACKAGE_DOWNLOAD"
+            echo "The system.json download url does not match the created release asset url."
+            echo "module.json: $PACKAGE_VERSION"
             echo "release asset url: $RELEASE_DOWNLOAD"
             echo "Please fix this and push the tag again."
             exit 1
@@ -69,11 +69,12 @@ jobs:
         id: create_version_release
         uses: ncipollo/release-action@v1
         with:
-          allowUpdates: false # Set this to false if you want to prevent updating existing releases
+          allowUpdates: true # Set this to false if you want to prevent updating existing releases
           name: ${{ env.TAG_NAME }}
           draft: false
-          prerelease: false
-          omitDraftDuringUpdate: true
+          makeLatest: false
+          prerelease: true
+          omitDraftDuringUpdate: false
           omitPrereleaseDuringUpdate: true
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "./module.json, ./${{ env.ZIP_NAME }}"
