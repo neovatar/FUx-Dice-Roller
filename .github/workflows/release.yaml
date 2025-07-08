@@ -32,7 +32,7 @@ jobs:
           echo "TAG_NAME=$TAG" >> $GITHUB_ENV
           echo "ZIP_NAME=fux-dice-roller.zip" >> $GITHUB_ENV
           echo "RELEASE_DOWNLOAD_URL=https://github.com/${{github.repository}}/releases/download/$TAG/fux-dice-roller.zip" >> $GITHUB_ENV
-          echo "RELEASE_INSTALL_URL=https://github.com/${{github.repository}}/releases/download/$TAG/module.json" >> $GITHUB_ENV
+          echo "RELEASE_INSTALL_URL=https://github.com/${{github.repository}}/releases/latest/download/module.json" >> $GITHUB_ENV
 
       # Run some tests to make sure our `system.json` is correct
       # Exit before setting up node if not
