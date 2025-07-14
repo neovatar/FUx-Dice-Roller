@@ -10,7 +10,7 @@ Built-in support for
 
 - Dice So Nice
 
-The dice roller is not dependent on any specific Foundry game system. This module was originally developed by [Anderware](https://github.com/Anderware) and forked from [Anderware/FUx-Dice-Roller](https://github.com/Anderware/FUx-Dice-Roller).
+The dice roller is not dependent on any specific Foundry game system. This module was originally developed by [Anders Forslund](https://github.com/Anderware) and forked from [Anderware/FUx-Dice-Roller](https://github.com/Anderware/FUx-Dice-Roller).
 
 ![fux_fu_v2](docs/FUx-dice-roller.gif)
 ## Installation
