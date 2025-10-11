@@ -4,15 +4,11 @@
     <div class="form-fields">
 
         {{#if this.isCheckbox}}
-        <input type="checkbox" name="{{this.id}}" data-dtype="Boolean" {{checked this.value}}/>
+        <input type="checkbox" name="{{this.id}}" data-dtype="Boolean" {{checked this.value}}/>{{ this.scope }}
 
         {{else if this.isSelect}}
         <select name="{{this.id}}">
-            {{#select this.value}}
-            {{#each this.choices as |name k|}}
-            <option value="{{k}}">{{localize name}}</option>
-            {{/each}}
-            {{/select}}
+            {{selectOptions this.choices selected=value localize=true}}
         </select>
 
         {{else if this.isRange}}
@@ -21,19 +17,18 @@
         <span class="range-value">{{this.value}}</span>
 
         {{else if this.filePicker}}
-        {{filePicker target=this.id type=this.filePickerType}}
-        <input type="text" name="{{this.id}}" value="{{this.value}}" data-dtype="{{this.type}}"/>
+        <file-picker type="image" name="{{this.id}}" value="{{this.value}}"></file-picker>
 
         {{else}}
         <input type="text" name="{{this.id}}" value="{{this.value}}" data-dtype="{{this.type}}"/>
         {{/if}}
     </div>
 
-    <p class="notes">{{{this.hint}}}</p>
+    <p class="hint">{{{this.hint}}}</p>
 </div>
 {{/inline}}
 
-<form>
+<div class="standard-form scrollable">
     <div style="width:100%;line-height: 32px;font-size: 16px;border-bottom: 1px solid #000;"><i class="fas fa-plug"></i> Module Settings</div>
     
     <h2 class="module-header" style="padding-top:5px;border-top: 1px solid #b5b3a4;">{{module_name}}</h2> 
@@ -54,4 +49,4 @@
         </button>
     </footer>
 
-</form>
+</div>
