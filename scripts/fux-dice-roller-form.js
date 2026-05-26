@@ -104,7 +104,9 @@ export class FUxDiceRollerForm extends HandlebarsApplicationMixin(ApplicationV2)
 
   _onRender(context, options) {
     this.element.querySelector('button[name="fux-dice-roller-form_btn-roll"]').addEventListener("click", this._onRoll.bind(this));
-    this.element.querySelector('#DisplayFUxDiceRollerSettings').addEventListener("click", this._onDisplayFUxDiceRollerSettings.bind(this));
+    if (game.user.isGM) {
+      this.element.querySelector('#DisplayFUxDiceRollerSettings').addEventListener("click", this._onDisplayFUxDiceRollerSettings.bind(this));
+    }
     this.element.querySelector('#ResetFUxDiceRollerSelection').addEventListener("click", this._onResetFUxDiceRollerSelection.bind(this));
     this.element.querySelector('#SaveDiceRollerSelection').addEventListener("click", this._onSaveDiceRollerSelection.bind(this));
     if (context.showfu2combathelper) {
