@@ -5,40 +5,53 @@
 import { _module_id } from   './fux-dice-roller.js';
 import { _module_ignore_settings } from   './fux-dice-roller.js';
 
-export class ModuleSettingsForm extends FormApplication {
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+
+export class ModuleSettingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
   static ModuleID='';
   static ModuleName='';
   static ModuleSettingIgnoreList;
+  
   static initialize() {
     this.ModuleID=_module_id; 
     this.ModuleSettingIgnoreList=_module_ignore_settings;
     this.ModuleName=game.modules.get(_module_id).title; 
-    console.log('Initialized ModuleSettingsForm for module ' + this.ModuleID );
-  }   
-    
-  static get defaultOptions() {
-    const defaults = super.defaultOptions;  
-    const overrides = {
-      height: 'auto',
-      id: 'module-settings-form',
-      template: `modules/${this.ModuleID}/templates/module-settings-form.hbs`,
-      title: `Configure Module Settings`,
-      userId: game.userId,
-      closeOnSubmit: false, // do not close when submitted
-      submitOnChange: false, // submit when any input changes 
-      resizable:true,
-      width:600
-    };  
-    const mergedOptions = foundry.utils.mergeObject(defaults, overrides);    
-    return mergedOptions;
-  }  
-  
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find('button[name="reset"]').click(this._onResetDefaults.bind(this));   
   }
+
+  static title = 'FUx Dice Roller Settings';
+
+  static DEFAULT_OPTIONS = {
+    id: "module-settings-form",
+    form: {
+      handler: ModuleSettingsForm.#onSubmit,
+      closeOnSubmit: true,
+      submitOnChange: false,
+    },
+    position: {
+      width: "auto",
+      height: "auto",
+    },
+    window: {
+      icon: "fas fa-gear",
+      title: this.title,
+      resizable: true,
+      contentClasses: ["standard-form", "scrollable"],
+    },
+    tag: "form"
+  }
+
+  static PARTS = {
+    rollerForm: {
+      template: `./modules/fux-dice-roller/templates/module-settings-form.hbs`,
+      scrollable: [""],
+    },
+  }
+
+  get title() {
+    return game.i18n.localize(this.options.window.title);
+  };
   
-  getData(options) {      
+  async _prepareContext(options) {      
     let data;
     let settings=[];
     
@@ -102,23 +115,25 @@ export class ModuleSettingsForm extends FormApplication {
     
     data={     
       module_name:ModuleSettingsForm.ModuleName, 
-      settings:settings
-    }     
+      settings:settings,
+    }
     return data;
-  }    
+  }
+
+  _onRender(context, options) {
+    this.element.querySelector('button[name="reset"]').addEventListener("click", this._onResetDefaults.bind(this));
+  }
   
-  async _updateObject(event, formData) {
-    const expandedData = foundry.utils.expandObject(formData);
-    //console.log(expandedData);
+  static async #onSubmit(event, form, formData) {
+    const expandedData = foundry.utils.expandObject(formData.object);
+    // console.log(expandedData);
     if (expandedData.hasOwnProperty(ModuleSettingsForm.ModuleID)){    
       let keys=Object.keys(expandedData[ModuleSettingsForm.ModuleID]); 
-      //console.log(keys);
+      // console.log(keys);
       for(let i=0;i<keys.length;i++){
         let sKey=keys[i];
         let sNewValue=expandedData[ModuleSettingsForm.ModuleID][keys[i]];
-        //console.log('Saving setting ' + sKey + ':' + sNewValue + ' for module ' + ModuleSettingsForm.ModuleID);
-        // save it                               
-        await game.settings.set(ModuleSettingsForm.ModuleID, sKey, sNewValue)
+        game.settings.set(ModuleSettingsForm.ModuleID, sKey, sNewValue);
       }
     }
   }

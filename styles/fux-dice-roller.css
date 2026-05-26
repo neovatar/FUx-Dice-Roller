@@ -52,6 +52,7 @@
 
 #DisplayFUxDiceRollerSettings,
 #ResetFUxDiceRollerSelection,
+#SaveDiceRollerSelection,
 #fux-dice-roller-combat-helper-show{
   float:right;
   font-size: 14px;
@@ -61,6 +62,7 @@
 }
 #DisplayFUxDiceRollerSettings:hover,
 #ResetFUxDiceRollerSelection:hover,
+#SaveDiceRollerSelection:hover,
 #fux-dice-roller-combat-helper-show:hover{
   cursor: pointer;
   filter: drop-shadow(var(--drop-shadow-size) var(--hovercolor));
@@ -68,7 +70,6 @@
 }
 
 .fux-dice-roller-combat-helper-btn{
-  
   width:100px;
 }
 
@@ -77,7 +78,6 @@
 .fux-dice-roller-combat-helper-dec-btn:hover{
   cursor: pointer;
   filter: drop-shadow(var(--drop-shadow-size) var(--hovercolor));
-  
 }
 
 .fux-dice-roller-combat-helper-form-level-label{
@@ -154,3 +154,21 @@ input[type="text"].fux-dice-roller-combat-helper-input-text:disabled{
     box-shadow: 0 0 2px #fff inset;
     word-break: break-all;
 }
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-span-2 { grid-column-end: span 2 }
+.grid-span-3 { grid-column-end: span 3 }

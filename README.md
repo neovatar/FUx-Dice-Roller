@@ -1,5 +1,5 @@
 ![Latest Release](https://img.shields.io/github/v/release/neovatar/FUx-Dice-Roller?style=for-the-badge&label=Latest%20release&color=%23ff6400)
-![Downloads (release-0.5.0)](https://img.shields.io/github/downloads/neovatar/FUx-Dice-Roller/release-0.5.0/fux-dice-roller.zip?style=for-the-badge&label=Downloads%20%28release-0.5.0%29)
+![Downloads (release-13.0.0)](https://img.shields.io/github/downloads/neovatar/FUx-Dice-Roller/release-13.0.0/fux-dice-roller.zip?style=for-the-badge&label=Downloads%20%28release-13.0.0%29)
 ![Downloads (all releases)](https://img.shields.io/github/downloads/neovatar/FUx-Dice-Roller/fux-dice-roller.zip?style=for-the-badge&label=Downloads%20%28all%20releases%29)
 
 # FUx Dice Roller
@@ -33,17 +33,15 @@ See [Foundry Wiki - How to install a module](https://foundryvtt.wiki/en/basics/M
 - Earthdawn - Age of Legend
     - in EDAoL, the roll is always 1d6 plus a reduced set of negative and/or  positive fudge dice(1d6 where 5-6 means +/- else ignored)
 
-## Launching FUx Dice Roller
+## Using FUx Dice Roller
 
-The dice roller can be launched by clicking the FU icon on the Chat tab of the sidebar
+### Scene toolbar icon
+
+The dice roller can be launched by clicking the dice icon on the Foundry VTT scene tools. The default setting is to show the dice roller icon as last icon of the token tools. You can also change this setting and show the icon as last icon of all tools.
 
 ![Launch dice roller from icon](docs/Launch_dice_roller_from_icon.png)
 
-The dice roller can  also be launched from the Module Settings window
-
-![Game Settings](docs/Game_Settings.png)
-
-## Roll commands from chat
+### Roll commands from chat
 
 FUx Dice roller support chat commands to roll
 
@@ -67,12 +65,10 @@ where x is the number of Action Dice and y is the number of Danger Dice
 
 ## Settings
 
+Open "configure Settings" in your Foundry VTT settings and choose "FUx Dice Roller". You can open the "FUX Dice Roller Settings" here. You can also choose on which toolbar you want to add the FUx Dice Rolle icon (default: Token Tools).
+
+![Module Settings](docs/Module_Settings.png)
+
+In the "FUx Dice Roller Settings" dialogue, you can choose the system variant you want to use. You can also set a few tweaks like hard mode.
+
 ![Settings](docs/Settings.png)
-
-## FU v2 Combat Helper
-
-If the current system variant is FU v2, a Combat Helper is available on the dice roller
-
-The Combat Helper makes it easy to quickly determine attacks and defend effects.
-
-![FU v2 Combat Helper](docs/FU_v2_Combat_Helper.png)

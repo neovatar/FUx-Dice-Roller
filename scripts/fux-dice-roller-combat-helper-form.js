@@ -1,6 +1,9 @@
 import { _module_id } from   './fux-dice-roller.js';
 import { ModuleSettingsForm } from "./module-settings-form.js";
-export class FUxDiceRollerCombatHelperForm extends FormApplication {
+
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+
+export class FUxDiceRollerCombatHelperForm extends HandlebarsApplicationMixin(ApplicationV2) {
   static title = 'FU2 Combat helper'
   
   CombatResult={
@@ -11,51 +14,47 @@ export class FUxDiceRollerCombatHelperForm extends FormApplication {
     SuccessLevel:0
   }
   
-  static initialize() {
-    //console.log('Initialized FUxDiceRollerCombatHelperForm' );
-  }   
-
-  static get defaultOptions() {
-    const defaults = super.defaultOptions;
-    const overrides = {
-      height: 'auto',
-      width: '600',
-      id: 'fux-dice-roller-combat-helper-form',
-      template: `modules/fux-dice-roller/templates/fux-dice-roller-combat-helper-form.hbs`,
+  static DEFAULT_OPTIONS = {
+    id: "fux-dice-roller-combat-helper-form",
+    form: {
+      handler: FUxDiceRollerCombatHelperForm.#onSubmit,
+      closeOnSubmit: false,
+      submitOnChange: true,
+    },
+    position: {
+      width: 850,
+      height: "auto",
+    },
+    window: {
+      icon: "fas fa-gear",
       title: this.title,
-      userId: game.userId,
-      closeOnSubmit: false, // do not close when submitted
-      submitOnChange: false, // submit when any input changes 
-      resizable: true
-    };
-    const mergedOptions = foundry.utils.mergeObject(defaults, overrides);
-    return mergedOptions;
-  }  
+      resizable: true,
+      minimizable: true,
+      frame: true,
+      scrollable: true,
+    },
+  }
 
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find('#DisplayFUxDiceRollerSettings').click(this._onDisplayFUxDiceRollerSettings.bind(this));
-    html.find('#fux-dice-roller-combat-helper-form').click(this._onFormClick.bind(this));
-    
-//    // test code for future use to load select dynamically from json
-//    Hooks.on("renderFUxDiceRollerCombatHelperForm",async (app, html,data) => {        
-//      // find the select
-//      let eselect=html.find('#fux-dice-roller-combat-helper-form-hit-location')[0];            
-//      let option = new Option("Small of the back", "20");
-//      eselect.appendChild(option);
-//    });
-    
-    
+  static PARTS = {
+    combatHelperForm: {
+      template: `./modules/fux-dice-roller/templates/fux-dice-roller-combat-helper-form.hbs`,
+      scrollable: [""],
+    },
   }
   
-  getData(options) {
+  _prepareContext(options) {
     let data;
     data = {
-      damage_types: ['None','Crush', 'Pierce', 'Cut', 'Chop', 'Burn', 'Energy', 'Mental', 'Mystic'],
+      damage_types: ['none','crush', 'pierce', 'cut', 'chop', 'burn', 'energy', 'mental', 'mystic'],
       user:{"isGM":game.user.isGM}
     }
     return data;
-  } 
+  }
+  
+  _onRender(context, options) {
+    this.element.querySelector('#DisplayFUxDiceRollerSettings').addEventListener("click", this._onDisplayFUxDiceRollerSettings.bind(this));
+    this.element.querySelector('#fux-dice-roller-combat-helper-form').addEventListener("click", this._onFormClick.bind(this));
+  }
 
   async _updateObject(event, formData) {
     //console.log('_updateObject'); 
@@ -63,16 +62,43 @@ export class FUxDiceRollerCombatHelperForm extends FormApplication {
     //console.log(expandedData);     
   }
 
+  static #onSubmit(event, form, formData) {
+        // console.log('_updateObject');
+    const expandedData = foundry.utils.expandObject(formData.object);
+    // console.log(expandedData);
+  }
+
   _onDisplayFUxDiceRollerSettings(event) {
     event.preventDefault();
     let f = new ModuleSettingsForm();
     f.render(true);
   }
-  
-  
+
+  toggleRadiobuttons(doc, elementidList, elementid){
+    elementidList.forEach(id => {
+      const element = doc.getElementById(id);
+      if (element) {
+        if (id !== elementid) {
+          element.outerHTML = element.outerHTML.replace('checked', '');
+        }
+      }
+    });
+  }
+
+  toggleCheckbox(doc, elementid){
+    const element = doc.getElementById(elementid);
+    if (element) {
+      let checked = doc.getElementById(elementid).outerHTML.includes('checked');
+      if (checked) {
+        element.outerHTML = element.outerHTML.replace('checked', '');
+      } else {
+        element.outerHTML = element.outerHTML.replace('>', ' checked>');
+      }
+    }
+  }
   
   async _onFormClick(event) {
-    //event.preventDefault();
+    event.preventDefault();
 
     let datatarget = event.target.getAttribute("data-target");
     let dataoperation = event.target.getAttribute("data-operation");
@@ -104,15 +130,37 @@ export class FUxDiceRollerCombatHelperForm extends FormApplication {
           break;
         case 'combat-action':
           targetinput = '';
+          let combatActionList=["fux-dice-roller-combat-helper-form-combat-action-attack","fux-dice-roller-combat-helper-form-combat-action-defense"];
+          this.toggleRadiobuttons(doc, combatActionList, `fux-dice-roller-combat-helper-form-combat-action-${datavalue.toLowerCase()}`);
           this.CombatResult.CombatAction=datavalue;
           this._ComputeCombatAction(doc);
           break;
         case 'damage-type':
           targetinput = '';
+          console.log('Damage type:' + datavalue.toLowerCase);
+                                 
+          let damagetypeIdList=['fux-dice-roller-combat-helper-form-combat-damage-type-none',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-crush',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-pierce',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-cut',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-chop',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-burn',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-energy',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-mental',
+                                'fux-dice-roller-combat-helper-form-combat-damage-type-mystic'];
+          this.toggleRadiobuttons(doc, damagetypeIdList, `fux-dice-roller-combat-helper-form-combat-damage-type-${datavalue.toLowerCase()}`);
           this._ComputeCombatAction(doc);
           break;
         case 'hit-location':
           targetinput = 'fux-dice-roller-combat-helper-form-hit-location';
+          break;
+        case 'hit-location-adaptive':
+          targetinput = '';
+          this.toggleCheckbox(doc, 'fux-dice-roller-combat-helper-form-adaptive-hit-location-roll');
+          break;
+        case 'hit-location-relative':
+          targetinput = '';
+          this.toggleCheckbox(doc, 'fux-dice-roller-combat-helper-form-relative-hit-location-roll');
           break;
         case 'hit-location-select':
           targetinput = '';

@@ -19,8 +19,7 @@
       "OPTION_CHATMSG_STYLE": {
         "Name": "Chat Message Style",
         "Hint": "Style of chat message used"
-      },    
-      
+      },        
       
       "OPTION_SHOW_SEND_TO_COMBAT_TRACKER": {
         "Name": "Show Send to Combat Tracker ",
@@ -64,7 +63,16 @@
       "SYSTEM_VARIANT_ACTION_TALES":"Action! Tales",
       "SYSTEM_VARIANT_NEON_CITY_OVERDRIVE":"Neon City Overdrive",
       "SYSTEM_VARIANT_EARTHDAWN_AGE_OF_LEGEND":"Earthdawn - Age Of Legend",
-      "OPTION_CHATMSG_STYLE_CORE":"Foundry Core"
+      "OPTION_CHATMSG_STYLE_CORE":"Foundry Core",
+
+      "OPTION_POPOUT": {
+        "Name": "Pop out FUx Dice Roller",
+        "Hint": "Display FUx Dice Roller",
+        "options": {
+          "all": "All Controls"
+        }
+      }
+      
     }
   }
 }

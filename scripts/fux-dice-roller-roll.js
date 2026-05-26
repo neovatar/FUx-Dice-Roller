@@ -374,8 +374,9 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let privatemode=false;
     let gmmode=false;
     let selfmode=false;
-    let rolltype = document.getElementsByClassName("roll-type-select");
-    let rtypevalue = rolltype[0].value;
+    //let rolltype = document.getElementsByClassName("roll-type-select");
+    //let rtypevalue = rolltype[0].value;
+    let rtypevalue = game.settings.get("core", "rollMode");
     let rvalue = CONST.CHAT_MESSAGE_STYLES.IC;
     switch (rtypevalue) {      //roll, gmroll,blindroll,selfroll
       case CONST.DICE_ROLL_MODES.PUBLIC:
@@ -542,7 +543,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
       summary: submsg + ' => ' + oracle
     };
 
-    renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
+    foundry.applications.handlebars.renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
       let messageData = {
         content: html,
         type: rvalue,

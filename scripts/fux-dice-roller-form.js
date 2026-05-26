@@ -4,45 +4,43 @@ import { ModuleSettingsForm } from "./module-settings-form.js";
 import { FUxDiceRollerCombatHelperForm } from "./fux-dice-roller-combat-helper-form.js";
 import { FUX_CONST } from   './fux-dice-roller-constants.js';
 import { SystemVariantName } from   './fux-dice-roller-constants.js';
-export class FUxDiceRollerForm extends FormApplication {
-  static title = 'FUx Dice Roller'
-  static initialize() {
-    //console.log('Initialized FUxDiceRollerForm' ); 
-    
-  }   
-  
-  static get defaultOptions() {
-    const defaults = super.defaultOptions;
-    const overrides = {
-      height: 'auto',
-      width: 'auto',
-      id: 'fux-dice-roller-form',
-      template: `modules/fux-dice-roller/templates/fux-dice-roller-form.hbs`,
+
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+
+export class FUxDiceRollerForm extends HandlebarsApplicationMixin(ApplicationV2) {
+  static title = 'FUx Dice Roller';
+
+  static DEFAULT_OPTIONS = {
+    id: "fux-dice-roller-form",
+    form: {
+      closeOnSubmit: false,
+      submitOnChange: false,
+    },
+    position: {
+      width: "auto",
+      height: "auto",
+    },
+    window: {
+      icon: "fas fa-gear",
       title: this.title,
-      userId: game.userId,
-      closeOnSubmit: false, // do not close when submitted
-      submitOnChange: false, // submit when any input changes 
-      resizable: true
-    };
-    const mergedOptions = foundry.utils.mergeObject(defaults, overrides);
-    return mergedOptions;
-  }  
-
-  
-
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find('button[name="fux-dice-roller-form_btn-roll"]').click(this._onRoll.bind(this));
-    html.find('#DisplayFUxDiceRollerSettings').click(this._onDisplayFUxDiceRollerSettings.bind(this));
-    html.find('#ResetFUxDiceRollerSelection').click(this._onResetFUxDiceRollerSelection.bind(this));
-    html.find('#fux-dice-roller-combat-helper-show').click(this._onDisplayFUxDiceRollerCombatHelperForm.bind(this));
-    
-    Hooks.once("closeFUxDiceRollerForm", (app, html, data) => {      
-      this._onCloseApplication(html);
-    });
+      resizable: true,
+      minimizable: true,
+      contentClasses: ["standard-form"],
+      tag: "form",
+    },
   }
 
-  getData(options) {
+  static PARTS = {
+    rollerForm: {
+      template: `./modules/fux-dice-roller/templates/fux-dice-roller-form.hbs`,
+    },
+  }
+
+  get title() {
+    return game.i18n.localize(this.options.window.title);
+  };
+
+  _prepareContext(options) {
     let data;
     let availabledice = game.settings.get(_module_id, 'OPTION_DICE_AVAILABLE');
     let showInitiativeOption = game.settings.get(_module_id, 'OPTION_SHOW_SEND_TO_COMBAT_TRACKER');
@@ -65,34 +63,14 @@ export class FUxDiceRollerForm extends FormApplication {
     let systemvariant = game.settings.get(_module_id, 'OPTION_SYSTEM_VARIANT');
     let systemvariantname = SystemVariantName(systemvariant);
     let diceselection=game.user.getFlag('world','fux-dice-roller-form-selection');
-        
+    diceselection = diceselection ?? { actiondice: 0, dangerdice: 0 };
     let actiondieselected=false;
     let dangerdieselected=false;
     for (let i = 1; i <= availabledice; i++) {
-      if (i == 1) {
-        actiondieselected=true;
-        dangerdieselected=false;
-        if(diceselection!=null){
-          if(diceselection.actiondice.length>=i-1){
-            actiondieselected=diceselection.actiondice[i-1];
-            dangerdieselected=diceselection.dangerdice[i-1];
-          }           
-        } 
-                
-      } else {
-        actiondieselected=false;
-        dangerdieselected=false;
-        if(diceselection!=null){
-          if(diceselection.actiondice.length>=i-1){
-            actiondieselected=diceselection.actiondice[i-1];
-            dangerdieselected=diceselection.dangerdice[i-1];
-          }           
-        }
-      }
-      
-      actiondie = {"number": i, "isSelected": actiondieselected,actiondiceicon:actiondiceicon};
-      dangerdie = {"number": i, "isSelected": dangerdieselected,dangerdiceicon:dangerdiceicon};
-      
+      diceselection.actiondice >= i ? actiondieselected=true : actiondieselected=false;
+      diceselection.dangerdice >= i ? dangerdieselected=true : dangerdieselected=false;
+      actiondie = {"number": i, "isSelected": actiondieselected, actiondiceicon:actiondiceicon};
+      dangerdie = {"number": i, "isSelected": dangerdieselected, dangerdiceicon:dangerdiceicon};
       actiondice.push(actiondie);
       dangerdice.push(dangerdie);
     }
@@ -112,41 +90,28 @@ export class FUxDiceRollerForm extends FormApplication {
       dangerdice_title: dangerdice_title,
       actiondice: actiondice,
       dangerdice: dangerdice,
-      showInitiativeOption: showInitiativeOption
+      showInitiativeOption: showInitiativeOption,
     }
     return data;
-  }  
-
-  async _updateObject(event, formData) {
-    //console.log('_updateObject'); 
-    //const expandedData = foundry.utils.expandObject(formData);
-    //console.log(expandedData);     
   }
 
-  async _onCloseApplication(html){    
-    let doc = html[0].ownerDocument;
-    let actiondiceselection=[];
-    let dangerdiceselection=[];
-    let actiondieselected=false;
-    let dangerdieselected=false;
-    let availabledice = game.settings.get(_module_id, 'OPTION_DICE_AVAILABLE');
-    for (let i = 1; i <= availabledice; i++) {
-      actiondieselected=false;
-      dangerdieselected=false;
-      if(doc.getElementById('fux-dice-roller-form-FUActionDie' + i).style.opacity==1){
-        actiondieselected=true;
-      }
-      if(doc.getElementById('fux-dice-roller-form-FUDangerDie' + i).style.opacity==1){
-        dangerdieselected=true;
-      }
-      actiondiceselection.push(actiondieselected) ;
-      dangerdiceselection.push(dangerdieselected) ;            
+  // Prevent close button
+  // async _renderFrame(options) {
+	// 	const frame = await super._renderFrame(options);
+	// 	this.window.close.remove(); // Prevent closing
+	// 	return frame;
+	// }
+
+  _onRender(context, options) {
+    this.element.querySelector('button[name="fux-dice-roller-form_btn-roll"]').addEventListener("click", this._onRoll.bind(this));
+    if (game.user.isGM) {
+      this.element.querySelector('#DisplayFUxDiceRollerSettings').addEventListener("click", this._onDisplayFUxDiceRollerSettings.bind(this));
     }
-    let diceselection={
-      actiondice:actiondiceselection,
-      dangerdice:dangerdiceselection
-    }    
-    await game.user.setFlag('world','fux-dice-roller-form-selection',diceselection)    
+    this.element.querySelector('#ResetFUxDiceRollerSelection').addEventListener("click", this._onResetFUxDiceRollerSelection.bind(this));
+    this.element.querySelector('#SaveDiceRollerSelection').addEventListener("click", this._onSaveDiceRollerSelection.bind(this));
+    if (context.showfu2combathelper) {
+      this.element.querySelector('#fux-dice-roller-combat-helper-show').addEventListener("click", this._onDisplayFUxDiceRollerCombatHelperForm.bind(this));
+    }
   }
   
   _onResetFUxDiceRollerSelection(event){
@@ -167,6 +132,19 @@ export class FUxDiceRollerForm extends FormApplication {
       }
       
     }
+  }
+
+  async _onSaveDiceRollerSelection(event){
+    event.preventDefault();
+    const button = event.currentTarget;
+    const doc = button.ownerDocument;
+    let actiondice = this.getSelectedFUDice("Action", doc);
+    let dangerdice = this.getSelectedFUDice("Danger", doc);
+    let diceselection={
+      actiondice:actiondice,
+      dangerdice:dangerdice
+    }    
+    await game.user.setFlag('world','fux-dice-roller-form-selection',diceselection)
   }
 
   _onDisplayFUxDiceRollerSettings(event) {

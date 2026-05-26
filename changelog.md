@@ -1,5 +1,10 @@
 # FUx Dice Roller Change Log
 
+## Version 13.0.0
+
+### Breaking
+- now supports Foundry v13, this version also requires Foundry VTT 13+
+
 ## Version 0.5.0
 
 ### Removed
