@@ -6,8 +6,9 @@ on:
       - "release-*"
 
 env:
-  MODULE_NAME: more-text-options
+  MODULE_NAME: fux-dice-roller
   PUBLISH_RELEASE: false
+  ZIP_FILES: images languages scripts styles templates LICENSE readme.md changelog.md module.json
 
 jobs:
   build:
@@ -72,7 +73,7 @@ jobs:
           fi
 
       # Create a zip file with all files required by the module to add to the release
-      - run: zip ${{ env.ZIP_NAME }} -r scripts LICENSE.md README.md CHANGELOG.md module.json
+      - run: zip ${{ env.ZIP_NAME }} -r ${{ env.ZIP_FILES }}
 
       # Create a release for this specific version
       - name: Update Release with Files
