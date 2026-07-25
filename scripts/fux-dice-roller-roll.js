@@ -546,7 +546,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
     foundry.applications.handlebars.renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
       let messageData = {
         content: html,
-        type: rvalue,
+        style: rvalue,
         blind: blindmode,
         speaker: ChatMessage.getSpeaker(),
       };

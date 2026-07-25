@@ -1,9 +1,13 @@
-# FUx Dice Roller Change Log
+## Version 13.1.0
+
+### Fixed
+- fixed chatmode validation error in Foundry v14
+- verified compatibility with Foundry v14
 
 ## Version 13.0.1
 
 ### Fixed
-- fixed latest module.json download url.
+- fixed latest module.json download url
 
 **MANUAL STEP NEEDED:** To enable auto updates, you need to reinstall this module.
 
