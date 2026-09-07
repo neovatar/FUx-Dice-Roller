@@ -376,30 +376,34 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let selfmode=false;
     //let rolltype = document.getElementsByClassName("roll-type-select");
     //let rtypevalue = rolltype[0].value;
-    let rtypevalue = game.settings.get("core", "rollMode");
+    let rtypevalue = game.settings.get("core", "messageMode");
     let rvalue = CONST.CHAT_MESSAGE_STYLES.IC;
     switch (rtypevalue) {      //roll, gmroll,blindroll,selfroll
-      case CONST.DICE_ROLL_MODES.PUBLIC:
+      case "public":
+      case "ic":
         publicmode=true;
         break;
-      case CONST.DICE_ROLL_MODES.PRIVATE:
+      case "gm":
         gmmode = true;
         privatemode=true;
         rvalue = 1;
         break;
-      case CONST.DICE_ROLL_MODES.BLIND:
+      case "blind":
         rvalue = 1;
         blindmode = true;
         gmmode = true;
         break;
-      case CONST.DICE_ROLL_MODES.SELF:
+      case "self":
         selfmode=true;
         break;
       default:
     }
     
     // now if the module dice-so-nice is activated
-    if (game.dice3d != null) {            
+    if (game.dice3d != null) {
+      // Get library settings
+      let actionDieLibraryId = getGameSetting('OPTION_ACTION_DIE_LIBRARY_ID');
+      let dangerDieLibraryId = getGameSetting('OPTION_DANGER_DIE_LIBRARY_ID');
       //dynamic builing dice rolls for d3
       let dice3dice=[];      
       for (let i = 0; i < actionssorted.length; i++) {
@@ -408,7 +412,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
           resultLabel: actionssorted[i],
           type: "d6",
           vectors: [],
-          options: {colorset:"white"}
+          options: actionDieLibraryId ? {appearance: {libraryDieId: actionDieLibraryId}} : {colorset:"white"}
         };
         dice3dice.push(dieresult);
       }
@@ -418,7 +422,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
           resultLabel: dangersorted[i],
           type: "d6",
           vectors: [],
-          options: {colorset:"black"}
+          options: dangerDieLibraryId ? {appearance: {libraryDieId: dangerDieLibraryId}} : {colorset:"black"}
         };
         dice3dice.push(dieresult);
       }                  
@@ -553,9 +557,9 @@ export async function RollFuxDice(actiondice, dangerdice) {
       
       console.log('speaker:', msgname);
 
-      if (rtypevalue == CONST.DICE_ROLL_MODES.PRIVATE || rtypevalue == CONST.DICE_ROLL_MODES.BLIND) {
+      if (rtypevalue == "gm" || rtypevalue == "blind") {
         messageData.whisper = ChatMessage.getWhisperRecipients('GM');
-      } else if (rtypevalue == CONST.DICE_ROLL_MODES.SELF) {
+      } else if (rtypevalue == "self") {
         // whisper to self  
         messageData.whisper = ChatMessage.getWhisperRecipients(game.user.name);
       }
