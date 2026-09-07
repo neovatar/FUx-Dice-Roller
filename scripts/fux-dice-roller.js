@@ -1,7 +1,9 @@
 // export const needed by ModuleSettingsForm
 export const _module_id = 'fux-dice-roller';  // modules true name(id)
 export const _module_ignore_settings = [
-  "OPTION_POPOUT"
+  "OPTION_POPOUT",
+  "OPTION_ACTION_DIE_LIBRARY_ID",
+  "OPTION_DANGER_DIE_LIBRARY_ID"
 ];       // array of strings containing settings that should not be displayed, can be empty []
 
 import { ModuleSettingsForm } from "./module-settings-form.js";
@@ -33,6 +35,8 @@ class FUxDiceRoller {
     OPTION_FU_CLASSIC_MATCHING_DICE: 'OPTION_FU_CLASSIC_MATCHING_DICE',
     OPTION_CUSTOM_ACTION_DICE_ICON:'OPTION_CUSTOM_ACTION_DICE_ICON',
     OPTION_CUSTOM_DANGER_DICE_ICON:'OPTION_CUSTOM_DANGER_DICE_ICON',
+    OPTION_ACTION_DIE_LIBRARY_ID: 'OPTION_ACTION_DIE_LIBRARY_ID',
+    OPTION_DANGER_DIE_LIBRARY_ID: 'OPTION_DANGER_DIE_LIBRARY_ID',
     OPTION_POPOUT: 'OPTION_POPOUT',
   } 
 
@@ -45,7 +49,9 @@ class FUxDiceRoller {
     OPTION_BOTCH_VALUE: 1,
     OPTION_FU_CLASSIC_MATCHING_DICE: '',
     OPTION_CUSTOM_ACTION_DICE_ICON:'',
-    OPTION_CUSTOM_DANGER_DICE_ICON:''
+    OPTION_CUSTOM_DANGER_DICE_ICON:'',
+    OPTION_ACTION_DIE_LIBRARY_ID: '',
+    OPTION_DANGER_DIE_LIBRARY_ID: ''
   }
   static CHATMSG_STYLE = {
     CORE: 0,
@@ -153,6 +159,24 @@ class FUxDiceRoller {
         filePicker: 'filepickertype',
         default: "",
         config: false,
+    });
+
+    game.settings.register(this.ID, this.SETTINGS.OPTION_ACTION_DIE_LIBRARY_ID, {
+        name: `fux-dice-roller.settings.${this.SETTINGS.OPTION_ACTION_DIE_LIBRARY_ID}.Name`,
+        hint: `fux-dice-roller.settings.${this.SETTINGS.OPTION_ACTION_DIE_LIBRARY_ID}.Hint`,
+        scope: 'user',
+        type: String,
+        default: "",
+        config: true,
+    });
+
+    game.settings.register(this.ID, this.SETTINGS.OPTION_DANGER_DIE_LIBRARY_ID, {
+        name: `fux-dice-roller.settings.${this.SETTINGS.OPTION_DANGER_DIE_LIBRARY_ID}.Name`,
+        hint: `fux-dice-roller.settings.${this.SETTINGS.OPTION_DANGER_DIE_LIBRARY_ID}.Hint`,
+        scope: 'user',
+        type: String,
+        default: "",
+        config: true,
     });
 
     game.settings.register(this.ID, this.SETTINGS.OPTION_POPOUT, {

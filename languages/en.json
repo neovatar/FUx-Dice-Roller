@@ -57,6 +57,16 @@
         "Name": "Custom Danger Dice Icon",
         "Hint": "Path to custom icon for Danger Dice. Leave blank for default"
       } ,
+
+      "OPTION_ACTION_DIE_LIBRARY_ID": {
+        "Name": "Action Die Library ID",
+        "Hint": "Die ID in Dice So Nice! library to use for Action Die. Leave blank for default."
+      } ,
+
+      "OPTION_DANGER_DIE_LIBRARY_ID": {
+        "Name": "Danger Die Library ID",
+        "Hint": "Die ID in Dice So Nice! library to use for Danger Die. Leave blank for default."
+      } ,
       
       "SYSTEM_VARIANT_FU_CLASSIC":"FU Classic",
       "SYSTEM_VARIANT_FU_V2":"FU v2",
